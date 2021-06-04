@@ -1,0 +1,21 @@
+@import '../../styles/base/variables';
+
+.stage-item {
+  &__container {
+    padding: 1rem;
+  }
+  &__wrapper {
+    cursor: pointer;
+    border: 1px solid $color-disabled;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: #efefef;
+    transition: 0.3s all;
+    text-align: center;
+    font-weight: bold;
+    &:hover {
+      background-color: $color-disabled;
+      color: white;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "Games": [
+    { 
+      "id": 1,
+      "title": "STAGE 1",
+      "STAGE": 1
+    },
+    { 
+      "id": 2,
+      "title": "STAGE 2",
+      "STAGE": 2
+    }
+  ]
+}
