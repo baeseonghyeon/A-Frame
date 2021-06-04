@@ -4,4 +4,4 @@
 
 #### 1. [A-Frame with Next.js](./first-aframe)
 
-#### 2. [Normal A-Frame Pysics_System](./html-aframe)
+#### 2. [A-Frame Pysics System](./html-aframe)
