@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-Frame :: Cannon Pyshics 1</title>
+      
+    <!-- A-Frame 0.7.1 -->
+    <!-- <script src="//aframe.io/releases/0.7.1/aframe.min.js"></script> -->
+
+    <!-- A-Frame 0.8.* -->
+    <script src="//aframe.io/releases/0.8.2/aframe.min.js"></script>
+
+    <!-- A-Frame 1.1.0 -->
+    <!-- <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script> -->
+
+    <!-- A-Frame Master -->
+    <!-- <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script> -->
+
+    <!-- A-Frame Physics -->
+    <script src="//unpkg.com/aframe-physics-system@3.1.2/dist/aframe-physics-system.min.js"></script>
+    <!-- <script src="//cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script> -->
+
+    <!-- A-Frame Extras -->
+    <script src="//unpkg.com/aframe-extras@4.1.2/dist/aframe-extras.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script> -->
+</head>
+<body>
+
+<script>
+  AFRAME.registerComponent("event-listener", {
+    init: function() {
+      this.el.addEventListener("click", function(e) {
+        // console.log(e.target)
+        e.target.setAttribute('scale', {x: 1.2, y: 1.2, z: 1.2});
+        });
+      this.el.addEventListener("mouseenter", function(e) {
+        // console.log(e.target)
+        e.target.setAttribute('scale', {x: 1.1, y: 1.1, z: 1.1});
+        });
+      this.el.addEventListener("mouseleave", function(e) {
+        // console.log(e.target)
+        e.target.setAttribute('scale', {x: 1, y: 1, z: 1});
+        });
+      }
+    });
+</script>
+
+
+<!-- SCENE -->
+<a-scene physics="debug: false; restitution: 0;" background="color: lightblue;">
+  
+  <!-- CAMERA -->
+  <a-entity id="rig" movement-controls kinematic-body jump-ability="">
+    <a-entity camera look-controls="pointerLockEnabled: true;" position="0 1.6 0"></a-entity>
+    <a-entity cursor="rayOrigin:mouse" ></a-entity>
+  </a-entity>
+  
+  <!-- STAGE -->
+  <a-entity>
+    
+    <!-- <a-entity geometry="primitive: plane; height: auto; width: 6;" material="color: black; opacity: 0.7; side: double;" text="value: \nObserve sporadic 'jumping' (even while idle) when using `kinematic-body` on a `static-body` 'floor'.\n\n; align: left; anchor: center; side: double; width: 5;" position="0 2 -3"></a-entity> -->
+    
+    
+    <!-- Wall -->
+    <!-- front -->
+    <a-box static-body color="#f55" height="5" width="8" depth="0.1" position="0 1.5 -4" text="value: static-body; align: center; width: 5;  zOffset: 0.501;" shadow></a-box>
+    <!-- back -->
+    <a-box static-body color="#f55" height="5" width="8" depth="0.1" position="0 1.5 4" rotation="0 180 0" text="value: static-body; align: center; width: 5;  zOffset: 0.501;" shadow></a-box>
+    <!-- side -->
+    <a-box static-body color="#f55" height="5" width="0.1" depth="8" position="-4 1.5 0" text="value: static-body; align: center; width: 5;  zOffset: 0.501;" shadow></a-box>
+    
+    <!-- Object -->
+    <a-box dynamic-body event-listener color="#55f" position="-2 2 -2" text="value: dynamic-body; align: center; width: 3; zOffset: 0.501;" shadow></a-box>
+    <a-box dynamic-body event-listener color="#5f5" position="2 2 -2"  height="1.5" width="1.5" depth="1.5"   text="value: dynamic-body; align: center; width: 3; zOffset: 0.901; color: #333;" shadow></a-box>
+    
+    <!-- Floor -->
+    <!-- <a-box color="gray" height="1" width="400" depth="400" static-body position="0 -0.5 0"></a-box> -->
+    <a-plane static-body position="0 0 0" rotation="-90 0 0" width="8" height="8" color="#7BC8A4"></a-plane>
+    
+  </a-entity>
+  
+</a-scene>
+</body>
+</html>

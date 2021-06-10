@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A-Frame :: Ammo Pyshics</title>
+ 
+  <!-- A-Frame CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/aframe@1.2.0/dist/aframe-master.min.js"></script>  
+
+  <!-- A-Frame Ammo CDN -->
+  <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+
+  <!-- A-Frame Physics CDN -->
+  <script src="//cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+  <!-- A-Frame Extras CDN -->
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+  <!-- A-Frame Inspector Plugin CDN -->
+  <!-- <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script> -->
+
+
+
+  <!-- Create Many Balls -->
+  <script>
+    let createSphere = () => {
+    scene = document.querySelector("#cam");
+
+      for (let i = 0; i < 1; i++) {
+        const sphere = document.createElement('a-sphere');
+        const x = (Math.random() - 0.5) * 1.5;
+        const y = Math.random() + 1;
+        const z = ((Math.random() - 0.5) * 1.5) - 4;
+        sphere.setAttribute('position', '' + x + ' ' + y + ' ' + z);
+        sphere.setAttribute('radius', 0.25);
+        sphere.setAttribute('ammo-body', 'type: dynamic');
+        sphere.setAttribute('ammo-shape', 'type: sphere');
+        sphere.setAttribute('shadow', '');
+        sphere.setAttribute('color', '#EF2D5E');
+        scene.appendChild(sphere);
+      }
+    }
+    window.addEventListener('click', createSphere);
+  </script>
+
+<script>
+  AFRAME.registerComponent('push', {
+    dependencies: ['keyboard-controls'],
+    multiple: true,
+    init: function(){
+      this.el.addEventListener('body-loaded', () => {
+        this.el.addEventListener('keydown:keyP', () => {  
+          alert('hi');
+          scene = document.querySelector("#cam");
+          var force = new Ammo.btVector3(0, 0, -20)
+          var local = new Ammo.btVector3(0, 0, 0)
+          var worldVelocity = scene.body.quaternion.vmult(force);   
+          scene.body.applyImpulse(
+            worldVelocity, local
+          );
+        }); 
+      });
+    },
+  })
+</script>
+<script>
+    let jumpAction = () => {
+
+    
+      // console.log(document.querySelector('#obj1').Vec3());
+      console.log('hi');
+      // let position = document.querySelector('a-scene').camera.el.object3D.position; 
+      // let positionX = document.querySelector('#obj1').object3D.position.x; 
+      // let positionY = document.querySelector('#obj1').object3D.position.y;   
+      // let positionZ = document.querySelector('#obj1').object3D.position.z; 
+
+      // // document.querySelector("#obj1").setAttribute('position', {x: positionX, y:positionY+3, z: positionZ});
+      // document.querySelector("#obj1").object3D.position.set(positionX,positionY+3,positionZ);
+      
+      // console.log(positionX);
+      // console.log(positionY);
+      // console.log(positionZ);
+    }
+
+    window.addEventListener('keyup', event => {
+      if (event.code === 'Space') {
+        jumpAction();
+      }
+    })
+  </script>
+  
+  
+  <!-- Cursor Event -->
+  <script>
+    AFRAME.registerComponent("event-listener", {
+      init: function() {
+        this.el.addEventListener("click", function(e) {
+          // console.log(e.target)
+          e.target.setAttribute('scale', {x: 1.2, y: 1.2, z: 1.2});
+          });
+        this.el.addEventListener("mouseenter", function(e) {
+          // console.log(e.target)
+          e.target.setAttribute('scale', {x: 1.1, y: 1.1, z: 1.1});
+          });
+        this.el.addEventListener("mouseleave", function(e) {
+          // console.log(e.target)
+          e.target.setAttribute('scale', {x: 1, y: 1, z: 1});
+          });
+        }
+      });
+  </script>
+</head>
+
+<script>
+  AFRAME.registerComponent('collision-wire', {
+  schema: {
+    element: {type: 'string'}
+  },
+  init: function() {
+    let el = this.el;
+    // let element = this.data.element;
+    let element = "cam";
+
+    el.addEventListener("collidestart", function (event) {
+      if ( event.detail.targetEl.id === element) {
+        el.setAttribute('material', {'wireframe': true});
+        el.setAttribute('ammo-body', 'type: dynamic');
+        alert('1');
+        scene = document.querySelector("#cam");
+          var force = new Ammo.btVector3(0, 0, -20)
+          var local = new Ammo.btVector3(0, 0, 0)
+          var worldVelocity = scene.body.quaternion.vmult(force);   
+          scene.body.applyImpulse(
+            worldVelocity, local
+          );
+      };
+    });
+    
+    el.addEventListener("collideend", function (event) {
+      if ( event.detail.targetEl.id === element) {
+        el.setAttribute('material', {'wireframe': false});
+        el.setAttribute('ammo-body', 'type: dynamic');
+        alert('0');
+          scene = document.querySelector("#cam");
+          var force = new Ammo.btVector3(0, 0, -20)
+          var local = new Ammo.btVector3(0, 0, 0)
+          var worldVelocity = scene.body.quaternion.vmult(force);   
+          scene.body.applyImpulse(
+            worldVelocity, local
+          );
+      };
+    });
+  }
+});
+</script>
+
+<body>
+  <a-scene physics="driver: ammo; debugDrawMode: 1;" stats loading-screen="dotsColor: red; backgroundColor: black">
+    <!-- <a-scene physics="driver: ammo; debugDrawMode: 1;" stats loading-screen="dotsColor: red; backgroundColor: black" inspector-plugin-recast> -->
+
+    <!-- Assets -->
+    <a-assets>
+      <!-- Texture -->
+      <img id="sample" src="assets/texture/sample.jpg">
+      <img id="sample-NRM" src="assets/texture/sample-NRM.jpg">
+      <img id="bricks" src="assets/texture/bricks.jpg">
+      <img id="bricks-NRM" src="assets/texture/bricks-NRM.jpg">
+
+      <!-- 3D Model -->
+      <a-asset-item id="bb8" src="assets/model/bb8/scene.gltf"></a-asset-item>
+    </a-assets>
+
+    <!-- Object -->
+    <a-cylinder 
+      push
+      event-listener
+      ammo-body="type: dynamic"
+      ammo-shape="type: cylinder"
+      position="2 3 -3"
+      material="opacity: 0;"
+      geometry="height: 1.25; radius: 0.5;"
+    >
+      <a-entity 
+        gltf-model="#bb8"
+        position="0 0.2 0"
+        scale="0.01 0.01 0.01"
+        animation="property: rotation; dur: 10000; dir: normal; loop: true; to: 0 360 0"
+        shadow
+      >
+      </a-entity>
+    </a-cylinder>
+
+    <a-cylinder ammo-body="type: static; emitCollisionEvents: true;"
+    ammo-shape="type: cylinder"
+    position="0 1 -1" radius="1" height="3"
+    color="orange"
+    collision-wire
+    shadow
+    ></a-cylinder>
+
+    <a-box event-listener ammo-body="type: dynamic" ammo-shape="type: box" position="-1 3 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
+    <a-sphere event-listener ammo-body="type: dynamic" ammo-shape="type: sphere" position="0 3 -5" radius="1.25" color="#EF2D5E" shadow></a-sphere>
+    <a-cylinder event-listener ammo-body="type: dynamic" ammo-shape="type: cylinder" position="1 3 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
+
+    <!-- Wall -->
+    <a-box
+      collision-wire
+      ammo-body="type: static emitCollisionEvents: true;"
+      ammo-shape="type: box"
+      color="#FFFFFF"
+      src="#bricks"
+      repeat="1 1"
+      normal-map="#bricks-NRM"
+      normal-texture-repeat="1 1"
+      normal-scale="1 -1"
+      roughness="0.5"
+      width="8" height="4" depth="0.5"
+      position="0 2 -8"
+      scale="-1 1 1"
+      shadow
+      id="obj1" 
+    >
+    </a-box>
+    <a-box
+      collision-wire
+      ammo-body="type: static emitCollisionEvents: true;"
+      ammo-shape="type: box" 
+      color="#FFFFFF"
+      src="#bricks"
+      repeat="1 1"
+      normal-map="#bricks-NRM"
+      normal-texture-repeat="1 1"
+      normal-scale="1 -1"
+      roughness="0.9"
+      width="8" height="4" depth="0.5"
+      position="4 2 -4"
+      rotation="0 90 0"
+      scale="-1 1 1"
+      shadow
+    ></a-box>
+
+    <!-- Environment -->
+    <!-- <a-light type="point" color="red" intensity=".8" ></a-light>
+    <a-light type="point" intensity=".3" position="-2 2 2"></a-light> -->
+    <a-plane ammo-body="type: static" ammo-shape="type: box" position="0 0 -4" rotation="-90 0 0" width="20" height="20" color="#333333" shadow ></a-plane>
+    <a-sky color="#ECECEC"></a-sky>
+
+    <!-- Camera rig, with a cylynder to give an idea of its "size"-->
+    <a-entity
+      movement-controls="fly: false"
+      position="0 0 5"
+      geometry="primitive: cylinder; height: 2; radius: 0.5"
+      material="opacity: 0; wireframe: true"
+      ammo-body="type: kinematic"
+      ammo-shape="type: cylinder"
+      id="cam"
+    >
+      <a-entity camera position="0 1.6 0" look-controls="pointerLockEnabled: true;">
+        <!-- <a-text position="-0.13 0.6 -1" value="Test" color="#fff" scale="0.5 0.5 0.5"></a-text> -->
+        <a-entity geometry="primitive: plane; height: auto; width: 1;" material="color: black; opacity: 0.7; side: double;" text="value: text; align: center; anchor: center; side: double; width: 5;" position="0 2 -3"></a-entity>
+      </a-entity>
+      <a-entity cursor="rayOrigin:mouse" ></a-entity>
+      <a-entity laser-controls="hand: right"></a-entity>
+    </a-entity>
+  </a-scene>
+</body>
+</html>

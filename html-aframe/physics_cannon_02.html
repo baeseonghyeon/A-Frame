@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Frame :: Cannon Pyshics 2</title>
+
+    <!-- A-Frame 1.1.0 -->
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+
+    <!-- A-Frame Extras -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+    <!-- A-Frame Physics -->
+    <script src="//cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+    
+  
+  <body>
+    <a-scene physics="debug: true; restitution: 0;" background="color: lightblue;">
+
+      <a-box dynamic-body position="0 0 -5" height="4" width="4" color="blue"></a-box>
+      <a-box static-body position="0 0 0" height="4" width="4" color="red"></a-box>
+      <a-box static-body position="0 0 5" height="4" width="4" color="green"></a-box>
+      <a-plane static-body position="0 0 0" rotation="-90 0 0" width="8" height="14" color="#7BC8A4"></a-plane>
+      <a-sky color="#ECECEC"></a-sky>
+
+      <!-- CAMERA -->
+      <a-entity kinema-body="radius: 0.8" movement-controls kinematic-body jump-ability>
+        <a-entity camera look-controls="pointerLockEnabled: true;" position="0 1.6 0" jump-ability ></a-entity>
+      </a-entity>
+
+
+      
+      <!-- <a-entity id="rig" movement-controls kinematic-body jump-ability>
+        <a-entity camera look-controls="pointerLockEnabled: true;" position="0 1.6 0"></a-entity>
+      </a-entity> -->
+
+    </a-scene>
+  </body>
+</html>
